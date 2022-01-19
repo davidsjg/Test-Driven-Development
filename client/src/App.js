@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -10,8 +10,12 @@ function App() {
       {/* enzyme has a way to search for attributes with particular values within
       our shallow wrapper */}
       <div data-test="component-app"></div>
-      <h1 data-test="counter-display">The counter is currently </h1>
-      <button data-test="increment-button">increment counter</button>
+      <h1 data-test="counter-display">
+        The counter is currently &nbsp;<span data-test="count">{count}</span>
+      </h1>
+      <button data-test="increment-button" onClick={() => setCount(count + 1)}>
+        increment counter
+      </button>
     </>
   );
 }

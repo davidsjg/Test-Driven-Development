@@ -36,6 +36,27 @@ test("renders counter display", () => {
   expect(counterDisplay.length).toBe(1);
 });
 
-test("counter display starts at 0", () => {});
+//
+test("counter display starts at 0", () => {
+  //creates a shallow wrapper from our App component
+  const wrapper = setup();
+  //not searching for the node for the count variable, but rather the text from that node
+  const count = findByTestAttr(wrapper, "count").text();
+  expect(count).toBe("0");
+});
 
-test("clicking button increments counter display", () => {});
+test("clicking button increments counter display", () => {
+  const wrapper = setup();
+  //find the button
+  const button = findByTestAttr(wrapper, "increment-button");
+
+  //click the button
+  button.simulate("click");
+
+  //find the display, and test that the number has been incremented
+  const count = findByTestAttr(wrapper, "count").text();
+  expect(count).toBe("1");
+});
+
+//text() - returns a string of the rendered text of the current render tree
+//  gives us the text contents of the elemenet that is the parent of the shallow wrapper
