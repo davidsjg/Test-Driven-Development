@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
+import React from "react";
+
 import "./App.css";
 
 function App() {
@@ -15,6 +15,9 @@ function App() {
       </h1>
       <button data-test="increment-button" onClick={() => setCount(count + 1)}>
         increment counter
+      </button>
+      <button data-test="decrement-button" onClick={() => setCount(count - 1)}>
+        decrement counter
       </button>
     </>
   );

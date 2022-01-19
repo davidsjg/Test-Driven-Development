@@ -16,6 +16,7 @@ Enzyme.configure({ adapter: new EnzymeAdapter() });
 const setup = () => shallow(<App />);
 
 const findByTestAttr = (wrapper, val) => wrapper.find(`[data-test='${val}']`);
+
 test("renders without error", () => {
   //need to be more specific by using a data-test attribute on a component and using expect statement to throw error
   //add data-test attribute to the top level component
@@ -45,7 +46,7 @@ test("counter display starts at 0", () => {
   expect(count).toBe("0");
 });
 
-test("clicking button increments counter display", () => {
+test("clicking increment button increments counter display", () => {
   const wrapper = setup();
   //find the button
   const button = findByTestAttr(wrapper, "increment-button");
@@ -58,5 +59,27 @@ test("clicking button increments counter display", () => {
   expect(count).toBe("1");
 });
 
-//text() - returns a string of the rendered text of the current render tree
-//  gives us the text contents of the elemenet that is the parent of the shallow wrapper
+test("renders decrement button", () => {
+  //create a shallow wrapper from our App component
+  const wrapper = setup();
+
+  //find decrement button
+  const decButton = findByTestAttr(wrapper, "decrement-button");
+
+  //expect there to be 1 decrement button
+  expect(decButton.length).toBe(1);
+});
+
+test("clicking decrement button decrements counter display", () => {
+  //create a shallow wrapper from our App component
+  const wrapper = setup();
+
+  const decButton = findByTestAttr(wrapper, "decrement-button");
+
+  //simulate button click
+  decButton.simulate("click");
+
+  const count = findByTestAttr(wrapper, "count").text();
+
+  expect(count).toBe("-1");
+});
