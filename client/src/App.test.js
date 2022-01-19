@@ -83,3 +83,13 @@ test("clicking decrement button decrements counter display", () => {
 
   expect(count).toBe("-1");
 });
+
+test("counter display to not go negative", () => {
+  const wrapper = setup();
+
+  const count = findByTestAttr(wrapper, "count").text();
+
+  console.log(parseInt(count));
+
+  expect(parseInt(count)).toBeGreaterThanOrEqual(0);
+});
