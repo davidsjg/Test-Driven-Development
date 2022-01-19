@@ -1,0 +1,53 @@
+enzyme
+
+- creates a virtual dom for testing
+- interact with this dom by sending it events (sending the elements events)
+- can assert against the dom by saying what it looks like upon rendering or after interacting with elements
+- virtual dom allows us to test without a browser
+
+enzyme vs react testing
+
+- both create a virtual dom that you can interact with an assert against
+- difference is philosophical (the way you should test)
+- enzyme supports isolated testing
+  - shallow rendering: allows you to isolate a component from its children
+  - only renders the component itself and not its children
+- react steers towards functional testing (interacting with the components the way a user would)
+  - makes the tests less isolated
+  - user would never interact with a parent element without seeing the children also
+- enzyme focuses on specific portion of code rather than user flow
+  - use mocks or shallow rendering to test only the thing you want to test
+
+13. TESTING DEFINITIONS
+
+UNIT TESTS
+
+- tests one piece of code (usually one function or one react component)
+  INTEGRATION TESTS
+- test how multiple units interact with each other
+- door and deadbolt example. deadbolt may work fine, and door may work fine, but if it's a sliding door, then the two together do not work
+  ACCEPTANCE / END-TO-END (E2E) TESTS
+- uses actual browser and connection to server (uses Cypress or Selennium to simulate the browser experience)
+  FUNCTIONAL TESTS == TESTING BEHAVIOR (how the app behaves from a user point of view)
+- any of the above, distinction is that the focus on user flow
+- test an actual function as opposed to just a piece of code
+  CODE-BASED TESTS == TESTING IMPLEMENTATION
+- i think this is the same as a unit test
+
+14. TESTING GOALS
+
+- test behavior, not implementation
+- that way, if implementation changes, tests remain the same because you are testing behavrior and what the app should do, not how it does it
+
+1. Not having to re-write tests if code is refactored (behavioral vs implementation)
+2. If a test fails, we want it to be easy to know why it failed
+
+3. NO SNAPSHOT TESTING
+
+- Jest includes feature called 'snapshot testing'
+  - takes output of rendered component, store that as a snapshot
+  - then, when you re-run the test, if there are any changes to that output, the test will fail
+  - no TDD with snapshot tests
+  - difficult to diagnose, no test intent
+
+16. nada - forking
