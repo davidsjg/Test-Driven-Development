@@ -4,27 +4,43 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = React.useState(0);
+  const [error, setError] = React.useState(false);
 
   return (
     <>
-      {/* enzyme has a way to search for attributes with particular values within
-      our shallow wrapper */}
       <div data-test="component-app"></div>
       <h1 data-test="counter-display">
         The counter is currently &nbsp;<span data-test="count">{count}</span>
       </h1>
 
-      {count < 0 && <div>Count cannot go below zero</div>}
-      {/* {count < 0 && setCount(0)} */}
+      <div
+        data-test="error-message"
+        className={`error ${error ? "" : "hidden"}`}
+      >
+        The Counter cannot go below 0!
+      </div>
 
-      {/* {count < 0 
-      ? ( )
-      : ()} */}
-
-      <button data-test="increment-button" onClick={() => setCount(count + 1)}>
+      <button
+        data-test="increment-button"
+        onClick={() => {
+          if (error) {
+            setError(false);
+          }
+          setCount(count + 1);
+        }}
+      >
         increment counter
       </button>
-      <button data-test="decrement-button" onClick={() => setCount(count - 1)}>
+      <button
+        data-test="decrement-button"
+        onClick={() => {
+          if (count > 0) {
+            setCount(count - 1);
+          } else {
+            setError(true);
+          }
+        }}
+      >
         decrement counter
       </button>
     </>

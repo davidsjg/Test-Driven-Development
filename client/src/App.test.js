@@ -25,12 +25,6 @@ test("renders without error", () => {
   expect(appComponent.length).toBe(1);
 });
 
-test("renders increment button", () => {
-  const wrapper = setup();
-  const button = findByTestAttr(wrapper, "increment-button");
-  expect(button.length).toBe(1);
-});
-
 test("renders counter display", () => {
   const wrapper = setup();
   const counterDisplay = findByTestAttr(wrapper, "counter-display");
@@ -46,6 +40,12 @@ test("counter display starts at 0", () => {
   expect(count).toBe("0");
 });
 
+test("renders increment button", () => {
+  const wrapper = setup();
+  const button = findByTestAttr(wrapper, "increment-button");
+  expect(button.length).toBe(1);
+});
+
 test("clicking increment button increments counter display", () => {
   const wrapper = setup();
   //find the button
@@ -59,37 +59,67 @@ test("clicking increment button increments counter display", () => {
   expect(count).toBe("1");
 });
 
-test("renders decrement button", () => {
-  //create a shallow wrapper from our App component
-  const wrapper = setup();
+describe("decrement button", () => {
+  test("renders decrement button", () => {
+    const wrapper = setup();
+    const decButton = findByTestAttr(wrapper, "decrement-button");
+  });
 
-  //find decrement button
-  const decButton = findByTestAttr(wrapper, "decrement-button");
+  test("clicking decrement button decrements counter display when state is greater than 0", () => {
+    const wrapper = setup();
 
-  //expect there to be 1 decrement button
-  expect(decButton.length).toBe(1);
+    const incButton = findByTestAttr(wrapper, "increment-button");
+
+    //click increment so count greater than 0
+    incButton.simulate("click");
+
+    const decButton = findByTestAttr(wrapper, "decrement-button");
+
+    //click decrement button so count back to 0
+    decButton.simulate("click");
+
+    const count = findByTestAttr(wrapper, "count").text();
+
+    //test value
+    expect(count).toBe("0");
+  });
 });
 
-test("clicking decrement button decrements counter display", () => {
-  //create a shallow wrapper from our App component
-  const wrapper = setup();
+describe("error when counter goes below zero", () => {
+  test("error does not show when not needed", () => {
+    const wrapper = setup();
 
-  const decButton = findByTestAttr(wrapper, "decrement-button");
+    const errorDiv = findByTestAttr(wrapper, "error-message");
 
-  //simulate button click
-  decButton.simulate("click");
-
-  const count = findByTestAttr(wrapper, "count").text();
-
-  expect(count).toBe("-1");
+    const errorHasHiddenClass = errorDiv.hasClass("hidden");
+    expect(errorHasHiddenClass).toBe(true);
+  });
 });
 
-test("counter display to not go negative", () => {
-  const wrapper = setup();
+describe("counter is 0 and decrement is clicked", () => {
+  //scoping wrapper to the describe, so it can be used in beforeEach and the tests
+  let wrapper;
+  beforeEach(() => {
+    wrapper = setup();
 
-  const count = findByTestAttr(wrapper, "count").text();
+    const button = findByTestAttr(wrapper, "decrement-button");
+    button.simulate("click");
+  });
+  test("error shows", () => {
+    const errorDiv = findByTestAttr(wrapper, "error-message");
+    const errorHasHiddenClass = errorDiv.hasClass("hidden");
+    expect(errorHasHiddenClass).toBe(false);
+  });
+  test("counter still displays 0", () => {
+    const count = findByTestAttr(wrapper, "count").text();
+    expect(count).toBe("0");
+  });
+  test("clicking increment clears the error", () => {
+    const incButton = findByTestAttr(wrapper, "increment-button");
+    incButton.simulate("click");
 
-  console.log(parseInt(count));
-
-  expect(parseInt(count)).toBeGreaterThanOrEqual(0);
+    const errorDiv = findByTestAttr(wrapper, "error-message");
+    const errorHasHiddenClass = errorDiv.hasClass("hidden");
+    expect(errorHasHiddenClass).toBe(true);
+  });
 });
