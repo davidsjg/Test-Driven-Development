@@ -11,6 +11,8 @@ export const findByTestAttr = (wrapper, val) => {
   return wrapper.find(`[data-test='${val}']`);
 };
 
+//take some expected props and see whether or not they would throw a warning
+//props testing strategy is to give it some props we expect to be good, and make sure they don't throw a warning
 export const checkProps = (component, conformingProps) => {
   const propError = checkPropTypes(
     component.propTypes,
