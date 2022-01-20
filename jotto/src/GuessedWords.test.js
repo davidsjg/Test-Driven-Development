@@ -27,3 +27,23 @@ test("does not throw warning with expected props", () => {
   //this is a negative test. checking to see that no error is thrown.  if no props are defined for this component, then no error thrown
   checkProps(GuessedWords, defaultProps);
 });
+
+describe("if there are no words guessed", () => {
+  let wrapper;
+  //runs before each test
+  beforeEach(() => {
+    wrapper = setup({ guessedWords: [] });
+  });
+  test("renders without error", () => {
+    const component = findByTestAttr(wrapper, "component-guessed-words");
+    expect(component.length).toBe(1);
+  });
+  test("renders instructions to guess a word", () => {
+    //span that renders the instructions
+    //make sure span is there and has non empty text
+    const instructions = findByTestAttr(wrapper, "guess-instructions");
+    expect(instructions.text().length).not.toBe(0);
+  });
+});
+
+describe("if there are words guessed", () => {});
