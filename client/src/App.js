@@ -6,6 +6,25 @@ function App() {
   const [count, setCount] = React.useState(0);
   const [error, setError] = React.useState(false);
 
+  const word = "lucky";
+  const arrWord = word.split("");
+  console.log(arrWord);
+
+  const guessed = "luck";
+  const arrGuessed = guessed.split("");
+  console.log(arrGuessed);
+
+  let numLettersCorrect = 0;
+
+  arrGuessed.map((letter) => {
+    const found = arrWord.find((let1) => let1 === letter);
+    if (found) {
+      numLettersCorrect = numLettersCorrect + 1;
+    }
+  });
+
+  console.log(numLettersCorrect);
+
   return (
     <>
       <div data-test="component-app"></div>
