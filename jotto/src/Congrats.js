@@ -1,5 +1,6 @@
 //receive success state as prop, render if true or null if false
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * @function
@@ -7,7 +8,7 @@ import React from "react";
  * @returns {JSX.Element} - Rendered component (or null if 'success' = false)
  */
 
-export default (props) => {
+const Congrats = (props) => {
   if (props.success) {
     return (
       <div data-test="component-congrats">
@@ -20,3 +21,9 @@ export default (props) => {
     return <div data-test="component-congrats"></div>;
   }
 };
+
+Congrats.propTypes = {
+  success: PropTypes.bool.isRequired,
+};
+
+export default Congrats;
